@@ -92,6 +92,10 @@ The heap validation and quarantine logic can be tested on a simulated copy of th
 ./tests/run_tests.sh
 ```
 
+## How this was made
+
+This fix was developed with the help of an LLM (Claude, by Anthropic). The analysis of the crash dumps, the reverse engineering of the game's allocator and the code of the DLL were done in a conversation with the model. I ran the game, collected the crash dumps and WinDbg output, and tested each version of the DLL over several hours of play. The results above come from those tests.
+
 ## Disclaimer
 
 Not affiliated with FromSoftware, Activision or Valve. Use at your own risk. Backing up your save (`%AppData%\Sekiro`) from time to time is always a good idea.
@@ -107,3 +111,5 @@ Une petite `dinput8.dll` qui corrige le crash aléatoire de **Sekiro** (Steam, 1
 **Installation :** copier `dinput8.dll` à côté de `sekiro.exe`, puis lancer le jeu depuis Steam. **Désinstallation :** supprimer le fichier.
 
 **Cause :** un bout de code du jeu décrémente encore le dernier champ d'un objet de 0x258 octets jusqu'à une demi-seconde après sa destruction. Ce champ fait alors partie des données internes de l'allocateur mémoire du jeu, qui se retrouve corrompu, et le jeu plante plus tard. La DLL garde ces objets détruits 10 secondes avant de les rendre à l'allocateur, ce qui neutralise la décrémentation tardive. Elle vérifie aussi chaque libération mémoire, en filet de sécurité. Détails dans [docs/TECHNICAL.md](docs/TECHNICAL.md) (en anglais).
+
+Ce correctif a été développé avec l'aide d'un LLM (Claude, d'Anthropic), qui a analysé les dumps, étudié l'allocateur du jeu et écrit le code. J'ai fourni les dumps et les sorties WinDbg, et testé chaque version en jeu.
