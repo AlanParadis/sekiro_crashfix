@@ -1,0 +1,23 @@
+; Import definitions for kernel32.dll, used to build without the Windows SDK
+; (llvm-dlltool -m i386:x86-64 -d kernel32.def -l kernel32.lib)
+LIBRARY kernel32.dll
+EXPORTS
+GetSystemDirectoryW
+LoadLibraryW
+GetProcAddress
+GetModuleHandleW
+GetModuleFileNameW
+CreateFileW
+WriteFile
+CloseHandle
+GetLocalTime
+DisableThreadLibraryCalls
+VirtualProtect
+FlushInstructionCache
+GetCurrentProcess
+GetCurrentThreadId
+CreateThread
+Sleep
+GetTickCount64
+VirtualQuery
+AddVectoredExceptionHandler
